@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홀맨 - 2000s CHARACTERS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="category.css">
+
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray: #666666;
+            --color-light-gray: #EEEEEE;
+            --color-border: #000000;
+            --color-red: #fc0c0c;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Noto Sans KR', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            background-color: var(--color-white);
+            color: var(--color-black);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); font-weight: 700; }
+        a { text-decoration: none; color: inherit; }
+        a:hover { text-decoration: underline; }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-black);
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 4rem;
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: var(--color-black);
+            text-transform: uppercase;
+        }
+        .nav-desktop { display: none; gap: 2rem; }
+        @media (min-width: 768px) { .nav-desktop { display: flex; } }
+        .nav-link { font-size: 0.875rem; color: var(--color-black); }
+        .nav-link:hover { text-decoration: underline; }
+
+        .hamburger {
+            display: flex; flex-direction: column; gap: 4px;
+            background: none; border: none; cursor: pointer; padding: 0.5rem;
+        }
+        @media (min-width: 768px) { .hamburger { display: none; } }
+        .hamburger span { width: 20px; height: 2px; background-color: var(--color-black); transition: all 0.3s ease; }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+        .nav-mobile { display: none; flex-direction: column; gap: 0.75rem; padding: 1rem 0; border-top: 1px solid var(--color-black); }
+        .nav-mobile.active { display: flex; }
+        @media (min-width: 768px) { .nav-mobile { display: none !important; } }
+        .nav-link-mobile { font-size: 0.875rem; color: var(--color-black); }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* ===== MAIN CONTENT (hidden until intro done) ===== */
+        #main-content {
+            display: block;
+        }
+
+        /* Back button */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-black);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+        }
+        .back-button:hover { text-decoration: underline; }
+        .back-button svg { width: 1rem; height: 1rem; }
+
+        .main { padding: 4rem 0; }
+
+        /* ===== CHARACTER HEADER ===== */
+        .char-header {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--color-black);
+        }
+
+        @media (min-width: 768px) {
+            .char-header {
+                grid-template-columns: 280px 1fr;
+                gap: 3rem;
+            }
+        }
+
+        .char-portrait {
+            width: 100%;
+            aspect-ratio: 1;
+            background-color: var(--color-yellow);
+            border: 1px solid var(--color-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .char-portrait-label {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--color-black);
+            opacity: 0.4;
+        }
+
+        
+
+        .char-title-area { display: flex; flex-direction: column; justify-content: flex-start; }
+
+        .char-eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            color: var(--color-gray);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .char-name-ko {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.03em;
+            margin-bottom: 2rem;
+        }
+
+        .char-name-en {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            margin-bottom: 1rem;
+            
+        }
+
+        .char-tagline {
+            font-size: 0.9rem;
+            color: var(--color-gray);
+            font-style: italic;
+            border-left: 3px solid var(--color-red);
+            padding-left: 1rem;
+            line-height: 1.7;
+            max-width: 480px;
+            margin-top: 3rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            margin-bottom: 4rem;
+        }
+
+        @media (min-width: 768px) {
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .info-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* 파일 박스 스타일 (jakewel.ch 참고) */
+        .info-box {
+            border: 1px solid var(--color-black);
+            margin: -1px 0 0 -1px; /* collapse borders */
+            padding: 0;
+            position: relative;
+        }
+
+        .info-box-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.75rem;
+            border-bottom: 1px solid var(--color-black);
+            background: var(--color-light-gray);
+        }
+
+        .info-box-filename {
+            font-size: 0.7rem;
+            font-family: monospace;
+            color: var(--color-black);
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .info-box-size {
+            font-size: 0.65rem;
+            color: var(--color-gray);
+            font-family: monospace;
+            margin-left: auto;
+        }
+
+        .info-box-body {
+            padding: 1rem 0.75rem;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+            font-size: 0.8125rem;
+            align-items: flex-start;
+        }
+
+        .info-row:last-child { margin-bottom: 0; }
+
+        .info-label {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--color-gray);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            min-width: 52px;
+            padding-top: 0.1em;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: var(--color-black);
+            line-height: 1.6;
+        }
+
+        /* 큰 텍스트 박스 (스토리) */
+        .info-box.wide {
+            grid-column: span 1;
+        }
+
+        @media (min-width: 768px) {
+            .info-box.wide {
+                grid-column: span 2;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .info-box.wide {
+                grid-column: span 3;
+            }
+        }
+
+        .story-text {
+            font-size: 0.8125rem;
+            color: var(--color-gray);
+            line-height: 2;
+            word-break: keep-all;
+        }
+
+        /* 빨간 태그 */
+        .tag {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-family: monospace;
+            background: var(--color-red);
+            color: var(--color-white);
+            padding: 0.1em 0.4em;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: 1px solid var(--color-black);
+            margin-top: 4rem;
+            padding: 1.5rem 0;
+        }
+        .footer p { font-size: 0.75rem; color: var(--color-gray); }
+
+
+    </style>
+</head>
+<body>
+    <div id="main-content">
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <a href="index.html" class="logo">
+                        <span class="logo-text">2000s characters</span>
+                    </a>
+                    <nav class="nav-desktop">
+                        <a href="human-based.html" class="nav-link">인간형</a>
+                        <a href="animal-based.html" class="nav-link">동물형</a>
+                        <a href="object-based.html" class="nav-link">비인간형</a>
+                    </nav>
+                    <button class="hamburger" id="hamburger">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+                <nav class="nav-mobile" id="navMobile">
+                    <a href="human-based.html" class="nav-link-mobile">인간형</a>
+                    <a href="animal-based.html" class="nav-link-mobile">동물형</a>
+                    <a href="object-based.html" class="nav-link-mobile">비인간형</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="container">
+                <a href="object-based.html" class="back-button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </a>
+
+                <!-- Character Header -->
+                <section class="char-header">
+                    <div class="char-portrait">
+                        <img src="홀맨.jpeg" alt="홀맨" style="width:100%;height:100%;object-fit:contain;display:block;">
+                    </div>
+                    <div class="char-title-area">
+                        <p class="char-eyebrow">비인간형 · 2002</p>
+                        <h1 class="char-name-ko">홀맨</h1>
+                        <p class="char-name-en" style="margin-bottom:3rem;">holeman</p>
+                    </div>
+                </section>
+                
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">profile.md</span>
+                            <span class="info-box-size">basic info</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">이름</span>
+                                <span class="info-value">홀맨</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">나이</span>
+                                <span class="info-value">아무도 모름</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">성격</span>
+                                <span class="info-value">느릿느릿하고 차분하지만 보는 사람들의 관점에 따라서는 약간 어처구니 없는 성격. 그러나 정의감 하나는 남다르다. 친구 사귀는 것을 특히 좋아해 자신과는 상극인 블랙홀까지 친구로 삼기에 이른다.</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">사는 곳</span>
+                                <span class="info-value">KH2002 혹성<br>화이트홀<br>지구</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                    <!-- 취미/특성 -->
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">traits.md</span>
+                            <span class="info-box-size">hobbies & traits</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">취미</span>
+                                <span class="info-value">처음 보는 물건 건드려 보기<br>만두 한 접시 통째로 먹기<br>홀독과 산책하기</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">특기</span>
+                                <span class="info-value">머리 돌리기, 춤, 무엇이든 빨아들이고 내뱉기</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">희망사항</span>
+                                <span class="info-value">이 세상, 이 우주의 모든 생명체들이랑 친구되기</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">좋아하는 것</span>
+                                <span class="info-value">홀독(holedog), 별, 친구, 댄스, 만두, 자신과 비슷하게 생긴 것</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">싫어하는 것</span>
+                                <span class="info-value">별로 없는 것 같으나, 친구를 괴롭히는 행위는 무척 싫어한다.</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">좌우명</span>
+                                <span class="info-value">모든 것의 처음과 끝은 원에서 시작된다. 고로 세계는 하나.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 가족관계 -->
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">characters.md</span>
+                            <span class="info-box-size">characters tree</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">친구</span>
+                                <span class="info-value">블랙홀</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">반려동물</span>
+                                <span class="info-value"><span onclick="document.getElementById('holedog-popup').style.display='flex'" style="cursor:pointer;text-decoration:underline; color: #0132f8;">홀독<br>홀캣
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">credits.md</span>
+                            <span class="info-box-size">production info</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">제작사</span>
+                                <span class="info-value">LG텔레콤</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">연도</span>
+                                <span class="info-value">2001년</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">design-note.md</span>
+                            <span class="info-box-size">design intent</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">의도</span>
+                                <span class="info-value">LG텔레콤의 10대 시장 정복을 위한 승부수로 눈, 코, 입이 없는 얼굴의 홀(Hole)은 무한한 가능성을 상징한다. 홀을 통해 10대에게 무한한 가능성의 메시지를 던지고, 10대의 생각과 감성을 대변하여, 독특한 브랜드로 포지셔닝 시킨다는 전략을 펼쳤다.</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">탄생</span>
+                                <span class="info-value">10대 청소년 대상 이동통신 요금제 서비스 '카이(Khai)'의 마스코트로 탄생했다. 21세기 디지털 감성을 담은 미스터리하고 귀여운 외계 생명체 컨셉으로 당시 10대들의 호기심을 자극했다.
+</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">그림체</span>
+                                <span class="info-value">단순한 원형 몸통에 팔다리가 달려있고 몸에 구멍이 뚫려있는 독특한 형태. 표정 변화가 거의 없다.
+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 비화 -->
+                    <div class="info-box">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">behind.md</span>
+                            <span class="info-box-size">behind the scenes</span>
+                        </div>
+                        <div class="info-box-body">
+                            <div class="info-row">
+                                <span class="info-label">비화</span>
+                                <span class="info-value">18년 만에 '생계형 인플루언서'로 복귀하며 현대적인 세계관을 구축, 다시 한번 대중의 관심을 받았다.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box wide">
+                        <div class="info-box-header">
+                            <span class="info-box-filename">story.md</span>
+                            <span class="info-box-size"> items</span>
+                        </div>
+                        <div class="info-box-body">
+                            <p class="story-text">
+                                 
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="container">
+                <p>© 2026 2000s CHARACTERS. 80В丫丁E Фㅔ从ㅔㅇ亅</p>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

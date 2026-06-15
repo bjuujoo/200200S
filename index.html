@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2000s CHARACTERS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Playfair+Display:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@latest/dist/galmuri.css">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #d1d1db;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        /* ===== 데스크탑: 십자선 4분할 ===== */
+        .desktop-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        /* 가로선 */
+        .desktop-grid::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 0;
+            width: 100%; height: 3px;
+            background: #a1f702;
+            transform: translateY(-50%);
+            z-index: 5;
+        }
+        /* 세로선 */
+        .desktop-grid::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 50%;
+            width: 3px; height: 100%;
+            background: #a1f702;
+            transform: translateX(-50%);
+            z-index: 5;
+        }
+
+        .cell {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem 2.5rem;
+            cursor: pointer;
+            transition: background 0.25s ease;
+            text-decoration: none;
+            color: #111;
+            overflow: hidden;
+            background: #d1d1db;
+        }
+        .cell:hover { text-decoration: none; }
+        .cell-human:hover  { background: #5cf9c2; }
+        .cell-animal:hover { background: #f89ff5; }
+        .cell-object:hover { background: #82a7f7; }
+        .cell-empty { cursor: default; }
+
+        .cell-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            color: #111;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cell-img { display: none; }
+
+        /* 로고 */
+        .logo {
+            position: fixed;
+            top: 1.5rem; left: 2rem;
+            z-index: 100;
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(32px, 5vw, 80px);
+            font-style: italic;
+            font-weight: 400;
+            color: #111;
+            text-decoration: none;
+            line-height: 1.2;
+        }
+        .logo:hover { text-decoration: none; }
+
+        /* ===== 모바일 ===== */
+        .mobile-wrap {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            flex-direction: column;
+        }
+
+        /* 위쪽 절반: 캐릭터들 */
+        .mobile-top {
+            position: relative;
+            flex: 1;
+            z-index: 10;
+        }
+
+        .mobile-logo {
+            position: absolute;
+            top: 1.4rem; left: 1.8rem;
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(38px, 7vw, 80px);
+            font-style: italic;
+            font-weight: 400;
+            color: #111;
+            line-height: 1.2;
+            z-index: 10;
+        }
+
+        /* 캐릭터사진모바일 */
+        .mob-img {
+            position: absolute;
+            pointer-events: none;
+        }
+        .mob-img-1 { width: 60px; top: 82%; left: 8%; }
+        .mob-img-2 { width: 80px; top: 10%; right: 28%; }
+        .mob-img-3 { width: 80px; top: 45%; left: 8%; }
+
+        /* 가로선 */
+        .mobile-divider {
+            width: 100%;
+            height: 3px;
+            background: #a1f702;
+            flex-shrink: 0;
+        }
+
+        /*아래쪽칸모바일*/
+        .mobile-bottom {
+            flex: 1;
+            position: relative;
+            background: #d1d1db;
+            overflow: hidden;
+        }
+
+        .carousel {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .carousel-slide {
+            width: 33.3333%;
+            height: 100%;
+            display: flex;
+            position: relative;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 2rem;
+            text-decoration: none;
+            color: #111;
+            transition: background 0.25s ease;
+            flex-shrink: 0;
+        }
+        .carousel-slide:hover { text-decoration: none; }
+        .slide-human:hover  { background: #5cf9c2; }
+        .slide-animal:hover { background: #f89ff5; }
+        .slide-object:hover { background: #82a7f7; }
+
+        .slide-title {
+            font-family: "Pyeonsan", "KoPub Batang", "Noto Serif KR", serif;
+            letter-spacing: -0.03em;
+            line-height: 1;
+            font-weight: 400;
+            font-size: 2rem;
+            color: #111;
+            position: absolute;
+            top: 13%;
+            right: 13%;
+        }
+
+        /*화살표버튼*/
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1.3rem; height: 1.3rem;
+            border-radius: 50%;
+            background: #111;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            z-index: 10;
+        }
+        .carousel-btn:hover { background: #fc0c0c; }
+        .carousel-prev { left: 0.75rem; }
+        .carousel-next { right: 0.75rem; }
+
+        /* ===== 반응형 전환 ===== */
+        @media (min-width: 768px) {
+            .desktop-grid { display: grid; }
+            .logo { display: block; }
+            .mobile-wrap { display: none !important; }
+        }
+
+        @media (max-width: 767px) {
+            .desktop-grid { display: none; }
+            .logo { display: none; }
+            .mobile-wrap { display: flex; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- ===== 데스크탑 ===== -->
+    <a href="index.html" class="logo">2000s CHARACTERS</a>
+
+    <div class="desktop-grid">
+        <div class="cell cell-empty"></div>
+        <a href="animal-based.html" class="cell cell-animal">
+            <span class="cell-title">동물형</span>
+        </a>
+
+        <a href="human-based.html" class="cell cell-human">
+            <span class="cell-title">인간형</span>
+        </a>
+
+        <a href="object-based.html" class="cell cell-object">
+            <span class="cell-title">비인간형</span>
+        </a>
+    </div>
+
+    <!-- ===== 모바일 ===== -->
+    <div class="mobile-wrap">
+        <div class="mobile-top">
+            <span class="mobile-logo">2000s CHARACTERS</span>
+        </div>
+
+        <div class="mobile-divider"></div>
+
+        <div class="mobile-bottom">
+            <div class="carousel" id="carousel">
+                <a href="human-based.html" class="carousel-slide slide-human">
+                    <span class="slide-title">인간형</span>
+                </a>
+                <a href="animal-based.html" class="carousel-slide slide-animal">
+                    <span class="slide-title">동물형</span>
+                </a>
+                <a href="object-based.html" class="carousel-slide slide-object">
+                    <span class="slide-title">비인간형</span>
+                </a>
+            </div>
+            <button class="carousel-btn carousel-prev" id="prevBtn"></button>
+            <button class="carousel-btn carousel-next" id="nextBtn"></button>
+        </div>
+    </div>
+    <script>
+        // 캐러셀
+        const carousel = document.getElementById('carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        let currentIndex = 0;
+        const totalSlides = 3;
+
+        if (nextBtn && carousel) {
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                    carousel.style.transform = `translateX(-${currentIndex * 33.3333}%)`;
+                }
+            });
+        }
+        if (prevBtn && carousel) {
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    carousel.style.transform = `translateX(-${currentIndex * 33.3333}%)`;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
